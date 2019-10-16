@@ -12,7 +12,7 @@ namespace Zahlensysteme
         //{
         //    Console.WriteLine("Menü");
         //    int auswahl;
-            
+
 
         //    string wiederholung;
 
@@ -59,7 +59,8 @@ namespace Zahlensysteme
             {
                 Console.WriteLine("1: Dezimal zu Binär");
                 Console.WriteLine("2: Binär zu Dezimal");
-                Console.WriteLine("3: Aktion 3");
+                Console.WriteLine("3: Dezimal zu Hexadezimal");
+                Console.WriteLine("4: Hexadezimal zu Dezimal");
 
                 Console.WriteLine("Aktion auswählen:");
                 auswahl = Convert.ToInt32(Console.ReadLine());
@@ -67,11 +68,11 @@ namespace Zahlensysteme
                 if (auswahl == 1)
                 {
                     // Umwandlung dezimal zu binär (spiegelverkehrte Ausgabe)
-                    string eingabe, ausgabe="";
-                    
+                    string eingabe, ausgabe = "";
+
                     Console.WriteLine("Dezimalzahl eingeben:");
                     eingabe = Console.ReadLine();
-                    ausgabe = von10zu(ausgabe);
+                    ausgabe = von10zu2(ausgabe);
 
                     //Ausgabe spiegeln
 
@@ -84,12 +85,31 @@ namespace Zahlensysteme
                     Console.WriteLine("Binärzahl eingeben:");
                     eingabe = Console.ReadLine();
                     ausgabe = Von2zu10(eingabe);
-                   
+
                     Console.WriteLine(eingabe + " in Dezimal: " + ausgabe);
                 }
                 else if (auswahl == 3)
                 {
-                    Console.WriteLine("Guten Tag.");
+                    // Umwandlung dezimal zu Hexadezimal (spiegelverkehrte Ausgabe)
+                    string eingabe, ausgabe = "";
+
+                    Console.WriteLine("Dezimalzahl eingeben:");
+                    eingabe = Console.ReadLine();
+                    ausgabe = von10zu16(eingabe);
+
+                    //Ausgabe spiegeln
+
+                    Console.WriteLine(eingabe + " in Hexadezimal: " + spiegeln(ausgabe));
+                }
+                else if (auswahl == 4)
+                {
+                    string eingabe;
+                    double ausgabe;
+                    Console.WriteLine("Hexadezimalzahl eingeben:");
+                    eingabe = Console.ReadLine();
+                    ausgabe = Von16zu10(eingabe);
+
+                    Console.WriteLine(eingabe + " in Dezimal: " + ausgabe);
                 }
                 else
                 {
@@ -111,7 +131,7 @@ namespace Zahlensysteme
             return ausgabe_R;
         }
 
-        static string von10zu(string input)
+        static string von10zu2(string input)
         {
             string ausgabe = "";
             int dez, quotient = 1, rest;
@@ -138,5 +158,53 @@ namespace Zahlensysteme
             }
             return dez;
         }
+        static string von10zu16(string input)
+        {
+            string ausgabe = "";
+            int dez, quotient = 1, rest;
+            dez = Convert.ToInt32(input);
+
+            while (quotient != 0)
+            {
+                quotient = dez / 16;
+                rest = dez % 16;
+                ausgabe += ZahlZuBuchstabe(rest);
+                dez = quotient;
+            }
+            return ausgabe;
+        }
+        static string ZahlZuBuchstabe(int Zahl)
+        {
+            if (Zahl == 10) return "A";
+            else if (Zahl == 11) return "B";
+            else if (Zahl == 12) return "C";
+            else if (Zahl == 13) return "D";
+            else if (Zahl == 14) return "E";
+            else if (Zahl == 15) return "F";
+            else return Convert.ToString(Zahl);
+        }
+        static int BuchstabeZuZahl(String input)
+        {
+            if (input == "A") return 10;
+            else if (input == "B") return 11;
+            else if (input == "C") return 12;
+            else if (input == "D") return 13;
+            else if (input == "E") return 14;
+            else if (input == "F") return 15;
+            else return Convert.ToInt32(input);
+        }
+        static double Von16zu10(string input)
+        {
+            double dez = 0;
+            for (int i = 0; i < input.Length; i++)
+            {
+
+                int faktor = (BuchstabeZuZahl(Convert.ToString(input[i])));
+                double exponent = Convert.ToDouble(input.Length - 1 - i);
+                dez += faktor * Math.Pow(16, exponent);
+
+            }
+            return dez;
+        } 
     }
 }
